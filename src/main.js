@@ -6,6 +6,7 @@ document.querySelector('#app').innerHTML = `
 
     <div id="loginModal" class="login-modal hidden">
       <div class="login-card">
+        <button id="closeLoginModal" class="close-login">✕</button>
         <h2>Schön, dass du da bist.</h2>
         <p>Melde dich an oder erstelle ein Konto.</p>
 

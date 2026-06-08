@@ -51,6 +51,7 @@ export function createMap() {
   const signupButton = document.querySelector('#signupButton')
   const loginButton = document.querySelector('#loginButton')
   const logoutButton = document.querySelector('#logoutButton')
+  const closeLoginModal = document.querySelector('#closeLoginModal')
 
   const markersById = {}
   const echoMarkersById = {}
@@ -510,6 +511,9 @@ export function createMap() {
   signupButton.addEventListener('click', signup)
   loginButton.addEventListener('click', login)
   logoutButton.addEventListener('click', logout)
+  closeLoginModal.addEventListener('click', () => {
+  hideLoginModal()
+})
 
   document.addEventListener('click', (event) => {
     const deleteButton = event.target.closest('.delete-moment-button')
