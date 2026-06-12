@@ -1,0 +1,16 @@
+{
+  "name": "MomentMap",
+  "short_name": "MomentMap",
+  "description": "Jeder Ort erzählt Geschichten.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff176",
+  "theme_color": "#fff176",
+  "icons": [
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

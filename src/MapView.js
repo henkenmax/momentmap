@@ -14,6 +14,9 @@ L.Icon.Default.mergeOptions({
 })
 
 export function createMap() {
+
+
+
   let selectedLocation = null
   let selectedMomentForEcho = null
   let momentsCache = []
@@ -583,6 +586,8 @@ continueToLogin.addEventListener('click', () => {
       return
 }
 
+
+
     if (hasMomentToday()) {
       alert('Du hast deinen Moment für heute bereits festgehalten.')
       return
@@ -778,6 +783,8 @@ supabase
 
       momentsCache.push(newMoment)
       addMomentToMap(newMoment)
+
+      
     }
   )
   .on(
