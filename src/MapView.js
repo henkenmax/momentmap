@@ -24,12 +24,20 @@ export function createMap() {
     zoomControl: false
   }).setView([51.1657, 10.4515], 6)
 
+  const bounds = [
+  [-85, -180],
+  [85, 180]
+]
+
+map.setMaxBounds(bounds)
+
   L.control.zoom({
     position: 'bottomleft'
   }).addTo(map)
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap'
+    attribution: '&copy; OpenStreetMap',
+    noWrap: true
   }).addTo(map)
 
   const form = document.querySelector('#momentForm')
