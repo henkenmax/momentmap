@@ -4,6 +4,32 @@ import { createMap } from './MapView'
 document.querySelector('#app').innerHTML = `
   <div class="app">
 
+    <div id="introModal" class="login-modal hidden">
+      <div class="login-card">
+        <button id="closeIntroModal" class="close-login">✕</button>
+
+        <h2>MomentMap</h2>
+
+        <p class="intro-text">
+          Jeder Ort erzählt Geschichten.
+        </p>
+
+        <div class="intro-explainer">
+  <strong>📌 Moment</strong>
+  <span>Teile deinen Moment an einem Ort.</span>
+</div>
+
+<div class="intro-explainer">
+  <strong>✨ Echo</strong>
+  <span>Reagiere auf einen Moment.</span>
+</div>
+
+        <button id="continueToLogin">
+          Weiter
+        </button>
+      </div>
+    </div>
+
     <div id="loginModal" class="login-modal hidden">
       <div class="login-card">
         <button id="closeLoginModal" class="close-login">✕</button>

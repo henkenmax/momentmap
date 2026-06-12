@@ -44,6 +44,10 @@ export function createMap() {
   const saveEchoButton = document.querySelector('#saveEcho')
   const cancelEchoButton = document.querySelector('#cancelEcho')
 
+  const introModal = document.querySelector('#introModal')
+  const closeIntroModal = document.querySelector('#closeIntroModal')
+  const continueToLogin = document.querySelector('#continueToLogin')
+  
   const loginModal = document.querySelector('#loginModal')
   const usernameInput = document.querySelector('#usernameInput')
   const emailInput = document.querySelector('#emailInput')
@@ -65,7 +69,13 @@ export function createMap() {
   function isLoggedIn() {
     return !!currentUser
   }
+  function showIntroModal() {
+  introModal.classList.remove('hidden')
+  }
 
+  function hideIntroModal() {
+  introModal.classList.add('hidden')
+  }
   function showLoginModal() {
     loginModal.classList.remove('hidden')
     usernameInput.focus()
@@ -389,7 +399,7 @@ export function createMap() {
 
   function getEchoPosition(moment, index, total) {
     const angle = (2 * Math.PI * index) / Math.max(total, 1)
-    const radius = 0.0018
+    const radius = 0.00035
 
     return [
       moment.lat + Math.sin(angle) * radius,
@@ -514,6 +524,14 @@ export function createMap() {
   closeLoginModal.addEventListener('click', () => {
   hideLoginModal()
 })
+  closeIntroModal.addEventListener('click', () => {
+  hideIntroModal()
+})
+
+continueToLogin.addEventListener('click', () => {
+  hideIntroModal()
+  showLoginModal()
+})
 
   document.addEventListener('click', (event) => {
     const deleteButton = event.target.closest('.delete-moment-button')
@@ -528,7 +546,7 @@ export function createMap() {
 
     if (echoButton) {
       if (!isLoggedIn()) {
-        showLoginModal()
+        showIntroModal()
         return
       }
 
@@ -549,18 +567,13 @@ export function createMap() {
     }
   })
 
-  map.on('popupopen', (event) => {
-    if (!isLoggedIn()) {
-      event.popup.close()
-      showLoginModal()
-    }
-  })
+  
 
   map.on('click', (event) => {
     if (!isLoggedIn()) {
-      showLoginModal()
+      showIntroModal()
       return
-    }
+}
 
     if (hasMomentToday()) {
       alert('Du hast deinen Moment für heute bereits festgehalten.')
