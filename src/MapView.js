@@ -746,10 +746,126 @@ continueToLogin.addEventListener('click', () => {
     })
   })
 
-  setInterval(() => {
-    cleanupExpiredEchos()
-    refreshAllEchos()
-  }, 60 * 1000)
+supabase
+  .channel('moments-realtime')
+  .on(
+    'postgres_changes',
+    {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'moments'
+    },
+    (payload) => {
+      const moment = payload.new
 
-  return map
+      const newMoment = {
+        id: moment.id,
+        text: moment.text,
+        lat: moment.lat,
+        lng: moment.lng,
+        userId: moment.user_id,
+        username: moment.username || 'MomentMap Nutzer',
+        createdAt: moment.created_at
+      }
+
+      const alreadyExists = momentsCache.some((savedMoment) => {
+        return savedMoment.id === newMoment.id
+      })
+
+      if (alreadyExists) {
+        return
+      }
+
+      momentsCache.push(newMoment)
+      addMomentToMap(newMoment)
+    }
+  )
+  .on(
+    'postgres_changes',
+    {
+      event: 'DELETE',
+      schema: 'public',
+      table: 'moments'
+    },
+    (payload) => {
+      const deletedMoment = payload.old
+
+      momentsCache = momentsCache.filter((moment) => {
+        return moment.id !== deletedMoment.id
+      })
+
+      echosCache = echosCache.filter((echo) => {
+        return echo.momentId !== deletedMoment.id
+      })
+
+      if (markersById[deletedMoment.id]) {
+        map.removeLayer(markersById[deletedMoment.id])
+        delete markersById[deletedMoment.id]
+      }
+
+      Object.keys(echoMarkersById).forEach((echoId) => {
+        const stillExists = echosCache.some((echo) => {
+          return echo.id === echoId
+        })
+
+        if (!stillExists) {
+          map.removeLayer(echoMarkersById[echoId])
+          delete echoMarkersById[echoId]
+        }
+      })
+
+      map.closePopup()
+    }
+  )
+  .subscribe()
+
+supabase
+  .channel('echoes-realtime')
+  .on(
+    'postgres_changes',
+    {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'echoes'
+    },
+    (payload) => {
+      const echo = payload.new
+
+      const newEcho = {
+        id: echo.id,
+        momentId: echo.moment_id,
+        text: echo.text,
+        userId: echo.user_id,
+        username: echo.username || 'MomentMap Nutzer',
+        createdAt: echo.created_at,
+        expiresAt: echo.expires_at
+      }
+
+      const alreadyExists = echosCache.some((savedEcho) => {
+        return savedEcho.id === newEcho.id
+      })
+
+      if (alreadyExists) {
+        return
+      }
+
+      echosCache.push(newEcho)
+
+      const relatedMoment = momentsCache.find((moment) => {
+        return moment.id === newEcho.momentId
+      })
+
+      if (relatedMoment) {
+        refreshEchosForMoment(relatedMoment)
+      }
+    }
+  )
+  .subscribe()
+
+setInterval(() => {
+  cleanupExpiredEchos()
+  refreshAllEchos()
+}, 60 * 1000)
+
+return map
 }
