@@ -344,8 +344,9 @@ function bindIntroButtons() {
     }
 
     currentUser = data.user
-    hideLoginModal()
-    updateLogoutButton()
+refreshMomentIcons()
+hideLoginModal()
+updateLogoutButton()
   }
 
   async function login() {
@@ -369,6 +370,7 @@ function bindIntroButtons() {
   }
 
   currentUser = data.user
+  refreshMomentIcons()
 
   if (username && !currentUser.user_metadata?.username) {
     const { data: updateData, error: updateError } = await supabase.auth.updateUser({
@@ -389,6 +391,7 @@ function bindIntroButtons() {
   async function logout() {
     await supabase.auth.signOut()
     currentUser = null
+    refreshMomentIcons()
 
     form.classList.add('hidden')
     echoForm.classList.add('hidden')
@@ -602,6 +605,53 @@ function bindIntroButtons() {
     `
   }
 
+  function getMomentAgeClass(moment) {
+  const created = new Date(moment.createdAt)
+  const now = new Date()
+
+  const ageMs = now.getTime() - created.getTime()
+  const ageHours = ageMs / (1000 * 60 * 60)
+  const ageDays = ageHours / 24
+
+  if (ageHours <= 24) {
+    return 'moment-fresh'
+  }
+
+  if (ageDays <= 7) {
+    return 'moment-normal'
+  }
+
+  if (ageDays <= 30) {
+    return 'moment-faded-90'
+  }
+
+  if (ageDays <= 90) {
+    return 'moment-faded-80'
+  }
+
+  if (ageDays <= 365) {
+    return 'moment-faded-70'
+  }
+
+  return 'moment-faded-60'
+}
+
+  function createMomentIcon(moment) {
+  const isOwnMoment = moment.userId === currentUser?.id
+  const ageClass = getMomentAgeClass(moment)
+  return L.divIcon({
+    className: 'moment-marker-wrapper',
+    html: `
+      <div class="moment-marker ${ageClass}">
+        <div class="moment-marker-inner ${isOwnMoment ? 'own' : ''}"></div>
+      </div>
+    `,
+    iconSize: [26, 26],
+    iconAnchor: [13, 26],
+    popupAnchor: [0, -26]
+  })
+}
+
   function createEchoIcon() {
     return L.divIcon({
       className: 'echo-marker',
@@ -613,8 +663,7 @@ function bindIntroButtons() {
 
   function getEchoPosition(moment, index, total) {
     const angle = (2 * Math.PI * index) / Math.max(total, 1)
-    const radius = 0.00035
-
+    const radius = 0.00050
     return [
       moment.lat + Math.sin(angle) * radius,
       moment.lng + Math.cos(angle) * radius
@@ -661,23 +710,33 @@ function bindIntroButtons() {
     })
   }
 
-  function addMomentToMap(moment) {
-    const marker = L.marker([moment.lat, moment.lng])
-      .addTo(map)
-      .bindPopup(createPostitContent(moment))
+ function addMomentToMap(moment) {
+  const marker = L.marker([moment.lat, moment.lng], {
+    icon: createMomentIcon(moment)
+  })
+    .addTo(map)
+    .bindPopup(createPostitContent(moment))
 
-    marker.on('click', () => {
-      if (!isLoggedIn()) {
-        marker.closePopup()
-        showLoginModal()
-        return
-      }
+  marker.on('click', () => {
+    if (!isLoggedIn()) {
+      marker.closePopup()
+      showLoginModal()
+      return
+    }
 
-      marker.setPopupContent(createPostitContent(moment))
-    })
+    marker.setPopupContent(createPostitContent(moment))
+  })
 
-    markersById[moment.id] = marker
-  }
+  markersById[moment.id] = marker
+}
+
+function refreshMomentIcons() {
+  momentsCache.forEach((moment) => {
+    if (markersById[moment.id]) {
+      markersById[moment.id].setIcon(createMomentIcon(moment))
+    }
+  })
+}
 
   async function loadMoments() {
     const { data, error } = await supabase

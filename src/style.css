@@ -379,3 +379,71 @@ main,
   flex: 0 0 auto;
   margin-top: 6px;
 }
+.moment-marker-wrapper {
+  background: transparent;
+  border: none;
+}
+
+.moment-marker {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  background: #2f80ed;
+  border: 2px solid #1d4f91;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35);
+}
+
+.moment-marker-inner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  top: 6px;
+  left: 6px;
+}
+
+.moment-marker-inner.own {
+  background: #000000;
+}
+
+.moment-marker.moment-fresh {
+  opacity: 1;
+  animation: momentPulse 1.8s ease-in-out infinite;
+}
+
+.moment-marker.moment-normal {
+  opacity: 1;
+}
+
+.moment-marker.moment-faded-90 {
+  opacity: 0.9;
+}
+
+.moment-marker.moment-faded-80 {
+  opacity: 0.8;
+}
+
+.moment-marker.moment-faded-70 {
+  opacity: 0.7;
+}
+
+.moment-marker.moment-faded-60 {
+  opacity: 0.6;
+}
+
+@keyframes momentPulse {
+  0% {
+    transform: rotate(-45deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(-45deg) scale(1.15);
+  }
+
+  100% {
+    transform: rotate(-45deg) scale(1);
+  }
+}
