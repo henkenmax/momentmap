@@ -883,7 +883,7 @@ function bindIntroButtons() {
     currentUser = session.user
 
     const now = new Date()
-    const expiresAt = new Date(now.getTime() + 3 * 60 * 60 * 1000)
+    const expiresAt = new Date(now.getTime() + 6 * 60 * 60 * 1000)
 
     const { data, error } = await supabase
   .from('echoes')
