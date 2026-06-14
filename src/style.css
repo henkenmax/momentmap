@@ -314,3 +314,68 @@ main,
   font-size: 0.95rem;
   color: #333;
 }
+.legal-links {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.legal-links span {
+  margin: 0 6px;
+}
+
+.legal-links .legal-link {
+  all: unset !important;
+  display: inline !important;
+  width: auto !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: #333 !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-size: 0.85rem !important;
+  font-family: inherit !important;
+}
+
+.legal-links .legal-link:hover {
+  color: #000 !important;
+}
+.privacy-card {
+  width: min(90vw, 760px);
+  max-height: 85vh;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.privacy-card h2 {
+  flex: 0 0 auto;
+  margin-bottom: 12px;
+}
+
+.privacy-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-bottom: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.privacy-content h3 {
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.privacy-content p {
+  margin-bottom: 12px;
+}
+
+.legal-back-button {
+  flex: 0 0 auto;
+  margin-top: 6px;
+}

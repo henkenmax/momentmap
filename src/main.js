@@ -15,18 +15,26 @@ document.querySelector('#app').innerHTML = `
         </p>
 
         <div class="intro-explainer">
-  <strong>📌 Moment</strong>
-  <span>Teile deinen Moment an einem Ort.</span>
-</div>
+          <strong>📌 Moment</strong>
+          <span>Teile deinen Moment an einem Ort.</span>
+        </div>
 
-<div class="intro-explainer">
-  <strong>✨ Echo</strong>
-  <span>Reagiere auf einen Moment.</span>
-</div>
+        <div class="intro-explainer">
+          <strong>✨ Echo</strong>
+          <span>Reagiere auf einen Moment.</span>
+        </div>
 
         <button id="continueToLogin">
           Weiter
         </button>
+
+        <div class="legal-links">
+          <button id="showImpressum" class="legal-link">Impressum</button>
+          <span>·</span>
+          <button id="showPrivacy" class="legal-link">Datenschutz</button>
+          <span>·</span>
+          <button id="showContact" class="legal-link">Kontakt</button>
+        </div>
       </div>
     </div>
 

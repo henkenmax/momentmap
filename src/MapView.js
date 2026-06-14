@@ -58,6 +58,10 @@ map.setMaxBounds(bounds)
   const introModal = document.querySelector('#introModal')
   const closeIntroModal = document.querySelector('#closeIntroModal')
   const continueToLogin = document.querySelector('#continueToLogin')
+  const showImpressum = document.querySelector('#showImpressum')
+const showPrivacy = document.querySelector('#showPrivacy')
+const showContact = document.querySelector('#showContact')
+const introCard = introModal.querySelector('.login-card')
   
   const loginModal = document.querySelector('#loginModal')
   const usernameInput = document.querySelector('#usernameInput')
@@ -87,6 +91,205 @@ map.setMaxBounds(bounds)
   function hideIntroModal() {
   introModal.classList.add('hidden')
   }
+  function renderIntroWelcome() {
+  introCard.innerHTML = `
+    <button id="closeIntroModal" class="close-login">✕</button>
+
+    <h2>MomentMap</h2>
+
+    <p class="intro-text">
+      Jeder Ort erzählt Geschichten.
+    </p>
+
+    <div class="intro-explainer">
+      <strong>📌 Moment</strong>
+      <span>Teile deinen Moment an einem Ort.</span>
+    </div>
+
+    <div class="intro-explainer">
+      <strong>✨ Echo</strong>
+      <span>Reagiere auf einen Moment.</span>
+    </div>
+
+    <button id="continueToLogin">
+      Weiter
+    </button>
+
+    <div class="legal-links">
+      <button id="showImpressum" class="legal-link">Impressum</button>
+      <span>·</span>
+      <button id="showPrivacy" class="legal-link">Datenschutz</button>
+      <span>·</span>
+      <button id="showContact" class="legal-link">Kontakt</button>
+    </div>
+  `
+
+  bindIntroButtons()
+}
+
+function renderImpressum() {
+  introCard.innerHTML = `
+    <button id="closeIntroModal" class="close-login">✕</button>
+
+    <h2>Impressum</h2>
+
+
+
+    <p>
+      <strong>Verantwortlich für den Inhalt von MomentMap</strong><br />
+      Moritz Menken<br />
+      Am Deich<br />
+      26676 Barssel<br />
+      Deutschland
+    </p>
+
+    <p>
+      E-Mail: momoment@outlook.de
+    </p>
+
+    <p>
+      Eine vollständige Kontolöschung ist jederzeit per E-Mail möglich.
+    </p>
+
+    <button class="secondary legal-back-button" id="backToIntro">
+      ← Zurück
+    </button>
+  `
+
+  bindLegalButtons()
+}
+
+function renderPrivacy() {
+  introCard.classList.add('privacy-card')
+
+  introCard.innerHTML = `
+    <button id="closeIntroModal" class="close-login">✕</button>
+
+    <h2>Datenschutz</h2>
+
+    <div class="privacy-content">
+      <p>
+        Der Schutz deiner persönlichen Daten ist mir wichtig.
+        Diese Datenschutzerklärung informiert darüber, welche Daten bei der Nutzung von MomentMap verarbeitet werden.
+      </p>
+
+      <h3>Verantwortlicher</h3>
+      <p>
+        Moritz Menken<br />
+        Am Deich<br />
+        26676 Barssel<br />
+        Deutschland<br />
+        E-Mail: momoment@outlook.de
+      </p>
+
+      <h3>Registrierung und Benutzerkonto</h3>
+      <p>
+        Für die Nutzung von MomentMap ist eine Registrierung mit E-Mail-Adresse,
+        Benutzername und Passwort erforderlich. Das Passwort wird über Supabase Auth verwaltet.
+        Eine Bestätigung der E-Mail-Adresse ist derzeit nicht erforderlich.
+      </p>
+
+      <h3>Momente und Echos</h3>
+      <p>
+        Wenn du einen Moment oder ein Echo erstellst, werden der eingegebene Text,
+        dein Benutzername, der Zeitpunkt der Erstellung sowie bei Momenten die gewählten
+        Geokoordinaten gespeichert.
+      </p>
+
+      <h3>Sichtbarkeit von Inhalten</h3>
+      <p>
+        Nicht angemeldete Besucher können die Positionen von Momenten und Echos auf der Karte erkennen.
+        Die Inhalte von Momenten und Echos sind ausschließlich für angemeldete Nutzer sichtbar.
+        Der Benutzername wird zusammen mit Momenten und Echos angezeigt.
+      </p>
+
+      <h3>Standortdaten</h3>
+      <p>
+        MomentMap greift derzeit nicht auf den aktuellen Standort deines Geräts zu.
+        Die Position eines Moments wird ausschließlich durch den Nutzer ausgewählt.
+      </p>
+
+      <h3>Bilder</h3>
+      <p>
+        Derzeit können keine Bilder hochgeladen oder gespeichert werden.
+      </p>
+
+      <h3>Hosting und Dienstleister</h3>
+      <p>
+        MomentMap wird über Vercel gehostet. Für Benutzerverwaltung, Authentifizierung
+        und Datenbank wird Supabase verwendet.
+      </p>
+
+      <h3>Kontolöschung</h3>
+      <p>
+        Eine vollständige Kontolöschung ist jederzeit per E-Mail möglich.
+      </p>
+    </div>
+
+    <button class="secondary legal-back-button" id="backToIntro">
+      ← Zurück
+    </button>
+  `
+
+  bindLegalButtons()
+}
+
+function renderContact() {
+  introCard.innerHTML = `
+    <button id="closeIntroModal" class="close-login">✕</button>
+
+    <h2>Kontakt</h2>
+
+    <p>
+      Bei Fragen, Anregungen, Problemen oder zur Kontolöschung kannst du mich per E-Mail erreichen.
+    </p>
+
+    <p>
+      E-Mail: momoment@outlook.de
+    </p>
+
+    <button class="secondary legal-back-button" id="backToIntro">
+      ← Zurück
+    </button>
+  `
+
+  bindLegalButtons()
+}
+
+function bindLegalButtons() {
+  document.querySelector('#closeIntroModal').addEventListener('click', () => {
+    hideIntroModal()
+  })
+
+  document.querySelector('#backToIntro').addEventListener('click', () => {
+    introCard.classList.remove('privacy-card')
+    renderIntroWelcome()
+  })
+}
+
+function bindIntroButtons() {
+  document.querySelector('#closeIntroModal').addEventListener('click', () => {
+    hideIntroModal()
+  })
+
+  document.querySelector('#continueToLogin').addEventListener('click', () => {
+    hideIntroModal()
+    showLoginModal()
+  })
+
+  document.querySelector('#showImpressum').addEventListener('click', () => {
+    renderImpressum()
+  })
+
+  document.querySelector('#showPrivacy').addEventListener('click', () => {
+    renderPrivacy()
+  })
+
+  document.querySelector('#showContact').addEventListener('click', () => {
+    renderContact()
+  })
+}
+  
   function showLoginModal() {
     loginModal.classList.remove('hidden')
     usernameInput.focus()
@@ -535,14 +738,7 @@ map.setMaxBounds(bounds)
   closeLoginModal.addEventListener('click', () => {
   hideLoginModal()
 })
-  closeIntroModal.addEventListener('click', () => {
-  hideIntroModal()
-})
-
-continueToLogin.addEventListener('click', () => {
-  hideIntroModal()
-  showLoginModal()
-})
+  bindIntroButtons()
 
   document.addEventListener('click', (event) => {
     const deleteButton = event.target.closest('.delete-moment-button')
