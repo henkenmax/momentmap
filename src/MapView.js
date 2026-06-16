@@ -148,7 +148,7 @@ function renderImpressum() {
     </p>
 
     <p>
-      E-Mail: momoment@outlook.de
+      E-Mail: kontakt@momentmap.app
     </p>
 
     <p>
@@ -183,7 +183,7 @@ function renderPrivacy() {
         Am Deich<br />
         26676 Barssel<br />
         Deutschland<br />
-        E-Mail: momoment@outlook.de
+        E-Mail: kontakt@momentmap.app
       </p>
 
       <h3>Registrierung und Benutzerkonto</h3>
@@ -249,7 +249,7 @@ function renderContact() {
     </p>
 
     <p>
-      E-Mail: momoment@outlook.de
+      E-Mail: kontakt@momentmap.app
     </p>
 
     <button class="secondary legal-back-button" id="backToIntro">
