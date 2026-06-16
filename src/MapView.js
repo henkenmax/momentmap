@@ -23,6 +23,8 @@ export function createMap() {
   let echosCache = []
   let currentUser = null
 
+  let showOnlyOwnMoments = false
+
   const map = L.map('map', {
     zoomControl: false
   }).setView([51.1657, 10.4515], 6)
@@ -70,6 +72,8 @@ const introCard = introModal.querySelector('.login-card')
   const signupButton = document.querySelector('#signupButton')
   const loginButton = document.querySelector('#loginButton')
   const logoutButton = document.querySelector('#logoutButton')
+  const profileButton = document.querySelector('#profileButton')
+  const profilePostit = document.querySelector('#profilePostit')
   const closeLoginModal = document.querySelector('#closeLoginModal')
 
   const markersById = {}
@@ -299,13 +303,19 @@ function bindIntroButtons() {
     loginModal.classList.add('hidden')
   }
 
-  function updateLogoutButton() {
-    if (isLoggedIn()) {
-      logoutButton.classList.remove('hidden')
-    } else {
-      logoutButton.classList.add('hidden')
-    }
+  async function updateAuthButtons() {
+  const { data } = await supabase.auth.getUser()
+  currentUser = data.user
+
+  if (currentUser) {
+    logoutButton.classList.remove('hidden')
+    profileButton.classList.remove('hidden')
+  } else {
+    logoutButton.classList.add('hidden')
+    profileButton.classList.add('hidden')
+    profilePostit.classList.add('hidden')
   }
+}
 
   async function updateAuthState() {
   const { data } = await supabase.auth.getUser()
@@ -315,7 +325,7 @@ function bindIntroButtons() {
   console.log('Aktueller User:', currentUser)
   console.log('User Metadata:', currentUser?.user_metadata)
 
-  updateLogoutButton()
+  updateAuthButtons()
 }
 
   async function signup() {
@@ -345,8 +355,9 @@ function bindIntroButtons() {
 
     currentUser = data.user
 refreshMomentIcons()
+
 hideLoginModal()
-updateLogoutButton()
+updateAuthButtons()
   }
 
   async function login() {
@@ -385,18 +396,20 @@ updateLogoutButton()
   }
 
   hideLoginModal()
-  updateLogoutButton()
+  updateAuthButtons()
 }
 
   async function logout() {
     await supabase.auth.signOut()
     currentUser = null
+    showOnlyOwnMoments = false
+    refreshMomentVisibility()
     refreshMomentIcons()
 
     form.classList.add('hidden')
     echoForm.classList.add('hidden')
     hideLoginModal()
-    updateLogoutButton()
+    updateAuthButtons()
 
     map.closePopup()
   }
@@ -737,7 +750,23 @@ function refreshMomentIcons() {
     }
   })
 }
+  function refreshMomentVisibility() {
+  momentsCache.forEach((moment) => {
+    const marker = markersById[moment.id]
 
+    if (!marker) {
+      return
+    }
+
+    const isOwnMoment = moment.userId === currentUser?.id
+
+    if (showOnlyOwnMoments && !isOwnMoment) {
+      map.removeLayer(marker)
+    } else {
+      marker.addTo(map)
+    }
+  })
+}
   async function loadMoments() {
     const { data, error } = await supabase
       .from('moments')
@@ -794,6 +823,53 @@ function refreshMomentIcons() {
   signupButton.addEventListener('click', signup)
   loginButton.addEventListener('click', login)
   logoutButton.addEventListener('click', logout)
+  profileButton.addEventListener('click', () => {
+ if (!isLoggedIn()) {
+  return
+}
+  profilePostit.innerHTML = `
+    <div class="profile-postit-title">Mein Profil</div>
+
+    
+
+    <div class="profile-username">
+  ${getUsername()}
+</div>
+
+    
+
+    <div class="profile-postit-row">
+      <span>Momente</span>
+      <strong>${momentsCache.filter((moment) => moment.userId === currentUser?.id).length}</strong>
+    </div>
+
+    <div class="profile-postit-row">
+      <span>Echos aktiv</span>
+      <strong>${echosCache.filter((echo) => echo.userId === currentUser?.id).length}</strong>
+    </div>
+
+    <div class="profile-postit-row">
+  <span>Anzeige</span>
+
+  <button class="profile-filter-button" id="toggleOwnMoments">
+    ${showOnlyOwnMoments ? 'Nur meine Momente' : 'Alle Momente'}
+  </button>
+</div>
+  `
+   const toggleOwnMoments = profilePostit.querySelector('#toggleOwnMoments')
+
+toggleOwnMoments.addEventListener('click', (event) => {
+  event.stopPropagation()
+
+  showOnlyOwnMoments = !showOnlyOwnMoments
+  refreshMomentVisibility()
+
+  toggleOwnMoments.textContent = showOnlyOwnMoments
+    ? 'Nur meine Momente'
+    : 'Alle Momente'
+})
+  profilePostit.classList.toggle('hidden')
+})
   closeLoginModal.addEventListener('click', () => {
   hideLoginModal()
 })
@@ -996,7 +1072,7 @@ function refreshMomentIcons() {
   })
 
   updateAuthState().then(() => {
-    updateLogoutButton()
+    updateAuthButtons()
     cleanupExpiredEchos()
 
     loadMoments().then(() => {

@@ -447,3 +447,129 @@ main,
     transform: rotate(-45deg) scale(1);
   }
 }
+.top-right-buttons {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 10px;
+  z-index: 2000;
+}
+
+.top-right-buttons .logout-button {
+  position: static;
+}
+
+.profile-status-button {
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: #111;
+  color: #22c55e;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.profile-status-button:hover {
+  transform: scale(1.05);
+}
+
+.profile-postit {
+  position: fixed;
+  top: 78px;
+  right: 15px;
+  width: 240px;
+  background: #fff176;
+  color: #222;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+  z-index: 2100;
+  transform: rotate(-2deg);
+  font-family: Arial, sans-serif;
+}
+
+.profile-postit-title {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.profile-postit-row {
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+}
+
+.profile-postit-row span {
+  display: block;
+  color: #666;
+  margin-bottom: 2px;
+}
+
+.profile-postit-row strong {
+  display: block;
+  color: #222;
+  word-break: break-word;
+}
+.top-right-buttons {
+  position: fixed !important;
+  top: 15px !important;
+  right: 15px !important;
+  display: flex !important;
+  gap: 10px !important;
+  z-index: 3000 !important;
+}
+
+.top-right-buttons .logout-button {
+  position: static !important;
+}
+
+.profile-status-button {
+  width: 52px !important;
+  height: 52px !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: #111 !important;
+  color: #22c55e !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 30px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}
+
+.profile-status-button.hidden {
+  display: none !important;
+}
+.profile-filter-button {
+  width: 100%;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #222;
+  color: #fff176;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.profile-filter-button:hover {
+  background: #000;
+}
+.profile-username {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #222;
+}

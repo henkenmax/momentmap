@@ -73,13 +73,21 @@ document.querySelector('#app').innerHTML = `
     </div>
 
     <main>
-      <button id="logoutButton" class="logout-button hidden" title="Logout">
-        <svg viewBox="0 0 64 64" class="logout-icon" aria-hidden="true">
-          <path d="M38 10h14v44H38" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 16l24-6v44l-24-6V16z" fill="currentColor"/>
-          <circle cx="29" cy="32" r="2.5" fill="#fff176"/>
-        </svg>
-      </button>
+      <div class="top-right-buttons">
+  <button id="profileButton" class="profile-status-button hidden" title="Mein Profil">
+    ✓
+  </button>
+
+  <button id="logoutButton" class="logout-button hidden" title="Logout">
+    <svg viewBox="0 0 64 64" class="logout-icon" aria-hidden="true">
+      <path d="M38 10h14v44H38" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 16l24-6v44l-24-6V16z" fill="currentColor"/>
+      <circle cx="29" cy="32" r="2.5" fill="#fff176"/>
+    </svg>
+  </button>
+</div>
+
+<div id="profilePostit" class="profile-postit hidden"></div>
 
       <div id="map"></div>
 
