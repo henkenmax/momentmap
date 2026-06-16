@@ -24,6 +24,7 @@ export function createMap() {
   let currentUser = null
 
   let showOnlyOwnMoments = false
+  let ownMomentsLine = null
 
   const map = L.map('map', {
     zoomControl: false
@@ -403,7 +404,9 @@ updateAuthButtons()
     await supabase.auth.signOut()
     currentUser = null
     showOnlyOwnMoments = false
+
     refreshMomentVisibility()
+    refreshOwnMomentsLine()
     refreshMomentIcons()
 
     form.classList.add('hidden')
@@ -557,7 +560,7 @@ updateAuthButtons()
       map.removeLayer(markersById[momentId])
       delete markersById[momentId]
     }
-
+    refreshOwnMomentsLine()
     map.closePopup()
   }
 
@@ -749,7 +752,43 @@ function refreshMomentIcons() {
       markersById[moment.id].setIcon(createMomentIcon(moment))
     }
   })
+  refreshOwnMomentsLine()
 }
+
+function refreshOwnMomentsLine() {
+  if (ownMomentsLine) {
+    map.removeLayer(ownMomentsLine)
+    ownMomentsLine = null
+  }
+
+  if (!showOnlyOwnMoments || !currentUser) {
+    return
+  }
+
+  const ownMoments = momentsCache
+    .filter((moment) => moment.userId === currentUser.id)
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+
+  console.log('Eigene Momente für Linie:', ownMoments.length, ownMoments)
+
+  if (ownMoments.length < 2) {
+    return
+  }
+
+  const points = ownMoments.map((moment) => {
+    return [Number(moment.lat), Number(moment.lng)]
+  })
+
+  ownMomentsLine = L.polyline(points, {
+    color: '#59585a',
+    weight: 3,
+    opacity: 0.3,
+    interactive: false
+  }).addTo(map)
+
+  ownMomentsLine.bringToFront()
+}
+
   function refreshMomentVisibility() {
   momentsCache.forEach((moment) => {
     const marker = markersById[moment.id]
@@ -766,6 +805,7 @@ function refreshMomentIcons() {
       marker.addTo(map)
     }
   })
+  refreshOwnMomentsLine()
 }
   async function loadMoments() {
     const { data, error } = await supabase
@@ -793,6 +833,8 @@ function refreshMomentIcons() {
     momentsCache.forEach((moment) => {
       addMomentToMap(moment)
     })
+
+    refreshOwnMomentsLine()
   }
 
   async function loadEchos() {
@@ -863,7 +905,7 @@ toggleOwnMoments.addEventListener('click', (event) => {
 
   showOnlyOwnMoments = !showOnlyOwnMoments
   refreshMomentVisibility()
-
+  refreshOwnMomentsLine()
   toggleOwnMoments.textContent = showOnlyOwnMoments
     ? 'Nur meine Momente'
     : 'Alle Momente'
@@ -995,7 +1037,8 @@ toggleOwnMoments.addEventListener('click', (event) => {
 
     momentsCache.push(newMoment)
     addMomentToMap(newMoment)
-
+    refreshMomentVisibility()
+refreshOwnMomentsLine()
     form.classList.add('hidden')
   })
 
@@ -1151,7 +1194,8 @@ supabase
           delete echoMarkersById[echoId]
         }
       })
-
+      refreshMomentVisibility()
+refreshOwnMomentsLine()
       map.closePopup()
     }
   )
