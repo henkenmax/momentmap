@@ -1,6 +1,7 @@
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { supabase } from './supabase.js'
+import { t } from './i18n.js'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
@@ -870,7 +871,7 @@ function refreshOwnMomentsLine() {
   return
 }
   profilePostit.innerHTML = `
-    <div class="profile-postit-title">Mein Profil</div>
+    <div class="profile-postit-title">${t('myProfile')}</div>
 
     
 
@@ -881,21 +882,26 @@ function refreshOwnMomentsLine() {
     
 
     <div class="profile-postit-row">
-      <span>Momente</span>
+    <span>${t('moments')}</span>
       <strong>${momentsCache.filter((moment) => moment.userId === currentUser?.id).length}</strong>
     </div>
 
     <div class="profile-postit-row">
-      <span>Echos aktiv</span>
+      <span>${t('activeEchos')}</span>
       <strong>${echosCache.filter((echo) => echo.userId === currentUser?.id).length}</strong>
     </div>
 
     <div class="profile-postit-row">
-  <span>Anzeige</span>
+  <span>${t('display')}</span>
 
-  <button class="profile-filter-button" id="toggleOwnMoments">
-    ${showOnlyOwnMoments ? 'Nur meine Momente' : 'Alle Momente'}
-  </button>
+ <button class="profile-filter-button" id="toggleOwnMoments">
+  ${
+    showOnlyOwnMoments
+      ? t('onlyMyMoments')
+      : t('allMoments')
+  }
+</button>
+
 </div>
   `
    const toggleOwnMoments = profilePostit.querySelector('#toggleOwnMoments')

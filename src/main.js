@@ -1,5 +1,6 @@
 import './style.css'
 import { createMap } from './MapView'
+import { t } from './i18n.js'
 
 document.querySelector('#app').innerHTML = `
   <div class="app">
@@ -8,24 +9,24 @@ document.querySelector('#app').innerHTML = `
       <div class="login-card">
         <button id="closeIntroModal" class="close-login">✕</button>
 
-        <h2>MomentMap</h2>
+        <h2>${t('appTitle')}</h2>
 
         <p class="intro-text">
-          Jeder Ort erzählt Geschichten.
+          ${t('introText')}
         </p>
 
         <div class="intro-explainer">
-          <strong>📌 Moment</strong>
-          <span>Teile deinen Moment an einem Ort.</span>
+          <strong>${t('momentTitle')}</strong>
+<span>${t('momentDescription')}</span>
         </div>
 
         <div class="intro-explainer">
-          <strong>✨ Echo</strong>
-          <span>Reagiere auf einen Moment.</span>
+         <strong>${t('echoTitle')}</strong>
+<span>${t('echoDescription')}</span>
         </div>
 
         <button id="continueToLogin">
-          Weiter
+          ${t('continue')}
         </button>
 
         <div class="legal-links">
@@ -41,33 +42,33 @@ document.querySelector('#app').innerHTML = `
     <div id="loginModal" class="login-modal hidden">
       <div class="login-card">
         <button id="closeLoginModal" class="close-login">✕</button>
-        <h2>Schön, dass du da bist.</h2>
-        <p>Melde dich an oder erstelle ein Konto.</p>
+        <h2>${t('welcomeTitle')}</h2>
+<p>${t('welcomeText')}</p>
 
         <input
           id="usernameInput"
           maxlength="20"
-          placeholder="Benutzername"
+          placeholder="${t('username')}"
         />
 
         <input
           id="emailInput"
           type="email"
-          placeholder="E-Mail"
+          placeholder="${t('email')}"
         />
 
         <input
           id="passwordInput"
           type="password"
-          placeholder="Passwort"
+          placeholder="${t('password')}"
         />
 
         <button id="signupButton">
-          Konto erstellen
+          ${t('signup')}
         </button>
 
         <button id="loginButton" class="secondary">
-          Einloggen
+          ${t('login')}
         </button>
       </div>
     </div>
