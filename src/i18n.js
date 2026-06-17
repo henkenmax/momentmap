@@ -18,7 +18,7 @@ export const translations = {
 
     myProfile: 'Mein Profil',
     moments: 'Momente',
-    activeEchos: 'Echos aktiv',
+    activeEchos: 'Echos',
     display: 'Anzeige',
     allMoments: 'Alle Momente',
     onlyMyMoments: 'Nur meine Momente'
@@ -43,7 +43,7 @@ export const translations = {
 
     myProfile: 'My profile',
     moments: 'Moments',
-    activeEchos: 'Active echoes',
+    activeEchos: 'Echoes',
     display: 'Display',
     allMoments: 'All moments',
     onlyMyMoments: 'Only my moments'

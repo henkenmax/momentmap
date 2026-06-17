@@ -516,6 +516,15 @@ updateAuthButtons()
   function getActiveEchosForMoment(momentId) {
     return getActiveEchos().filter((echo) => echo.momentId === momentId)
   }
+function getEchoCountForOwnMoments() {
+  const ownMomentIds = momentsCache
+    .filter((moment) => moment.userId === currentUser?.id)
+    .map((moment) => moment.id)
+
+  return echosCache.filter((echo) => {
+    return ownMomentIds.includes(echo.momentId)
+  }).length
+}
 
   function hasMomentToday() {
     const moments = getSavedMoments()
@@ -887,9 +896,9 @@ function refreshOwnMomentsLine() {
     </div>
 
     <div class="profile-postit-row">
-      <span>${t('activeEchos')}</span>
-      <strong>${echosCache.filter((echo) => echo.userId === currentUser?.id).length}</strong>
-    </div>
+  <span>${t('activeEchos')}</span>
+  <strong>${getEchoCountForOwnMoments()}</strong>
+</div>
 
     <div class="profile-postit-row">
   <span>${t('display')}</span>
