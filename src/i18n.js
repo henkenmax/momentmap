@@ -5,7 +5,7 @@ export const translations = {
     momentTitle: '📌 Moment',
     momentDescription: 'Teile deinen Moment an einem Ort.',
     echoTitle: '✨ Echo',
-    echoDescription: 'Reagiere auf einen Moment.',
+    echoDescription: 'Antworte auf einen Moment.',
     continue: 'Weiter',
 
     welcomeTitle: 'Schön, dass du da bist.',
@@ -30,7 +30,7 @@ export const translations = {
     momentTitle: '📌 Moment',
     momentDescription: 'Share your moment at a place.',
     echoTitle: '✨ Echo',
-    echoDescription: 'React to a moment.',
+    echoDescription: 'Reply to a moment.',
     continue: 'Continue',
 
     welcomeTitle: 'Nice to have you here.',
