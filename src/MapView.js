@@ -713,16 +713,17 @@ const backgroundOpacity = 1 - progress * 0.45
   }).addTo(map)
 
   echoMarker.on('click', () => {
-    if (!isLoggedIn()) {
-      echoMarker.closePopup()
-      showIntroModal()
-      return
-    }
+  if (!isLoggedIn()) {
+    map.closePopup()
+    showIntroModal()
+    return
+  }
 
-    echoMarker
-      .bindPopup(createEchoContent(echo))
-      .openPopup()
-  })
+  echoMarker.unbindPopup()
+
+  echoMarker.bindPopup(createEchoContent(echo))
+  echoMarker.openPopup()
+})
 
   echoMarkersById[echo.id] = echoMarker
 }
