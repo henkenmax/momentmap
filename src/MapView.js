@@ -708,14 +708,24 @@ const backgroundOpacity = 1 - progress * 0.45
   }
 
   function addEchoToMap(echo, moment, index, total) {
-    const echoMarker = L.marker(getEchoPosition(moment, index, total), {
-      icon: createEchoIcon()
-    })
-      .addTo(map)
-      .bindPopup(createEchoContent(echo))
+  const echoMarker = L.marker(getEchoPosition(moment, index, total), {
+    icon: createEchoIcon()
+  }).addTo(map)
 
-    echoMarkersById[echo.id] = echoMarker
-  }
+  echoMarker.on('click', () => {
+    if (!isLoggedIn()) {
+      echoMarker.closePopup()
+      showIntroModal()
+      return
+    }
+
+    echoMarker
+      .bindPopup(createEchoContent(echo))
+      .openPopup()
+  })
+
+  echoMarkersById[echo.id] = echoMarker
+}
 
   function refreshEchosForMoment(moment) {
     getActiveEchosForMoment(moment.id).forEach((echo) => {
@@ -757,7 +767,7 @@ const backgroundOpacity = 1 - progress * 0.45
   marker.on('click', () => {
     if (!isLoggedIn()) {
       marker.closePopup()
-      showLoginModal()
+      showIntroModal()
       return
     }
 
