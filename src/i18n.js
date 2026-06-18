@@ -1,11 +1,12 @@
 export const translations = {
   de: {
-    appTitle: 'MomentMap',
+    appTitle: 'momentmap',
     introText: 'Jeder Ort erzählt Geschichten.',
     momentTitle: '📌 Moment',
     momentDescription: 'Teile deinen Moment an einem Ort.',
     echoTitle: '✨ Echo',
     echoDescription: 'Antworte auf einen Moment.',
+    echoPhilosophy: 'Momente bleiben. Echos verstummen.',
     continue: 'Weiter',
 
     welcomeTitle: 'Schön, dass du da bist.',
@@ -25,12 +26,13 @@ export const translations = {
   },
 
   en: {
-    appTitle: 'MomentMap',
+    appTitle: 'momentmap',
     introText: 'Every place tells stories.',
     momentTitle: '📌 Moment',
     momentDescription: 'Share your moment at a place.',
     echoTitle: '✨ Echo',
     echoDescription: 'Reply to a moment.',
+    echoPhilosophy: 'Moments remain. Echoes fade away.',
     continue: 'Continue',
 
     welcomeTitle: 'Nice to have you here.',

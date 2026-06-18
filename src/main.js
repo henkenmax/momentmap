@@ -24,6 +24,10 @@ document.querySelector('#app').innerHTML = `
          <strong>${t('echoTitle')}</strong>
 <span>${t('echoDescription')}</span>
         </div>
+        
+        <p class="intro-philosophy">
+  ${t('echoPhilosophy')}
+</p>
 
         <button id="continueToLogin">
           ${t('continue')}

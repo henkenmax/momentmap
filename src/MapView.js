@@ -107,10 +107,11 @@ const introCard = introModal.querySelector('.login-card')
       Jeder Ort erzählt Geschichten.
     </p>
 
-    <div class="intro-explainer">
-      <strong>📌 Moment</strong>
-      <span>Teile deinen Moment an einem Ort.</span>
-    </div>
+  <div class="intro-explainer">
+  <div class="intro-explainer">
+  <strong>${t('momentTitle')}</strong>
+  <span>${t('momentDescription')}</span>
+</div>
 
     <div class="intro-explainer">
       <strong>✨ Echo</strong>
@@ -614,8 +615,18 @@ function getEchoCountForOwnMoments() {
   }
 
   function createEchoContent(echo) {
+  const created = new Date(echo.createdAt)
+const now = new Date()
+const ageMs = now.getTime() - created.getTime()
+const maxAgeMs = 6 * 60 * 60 * 1000
+
+const progress = Math.min(Math.max(ageMs / maxAgeMs, 0), 1)
+const backgroundOpacity = 1 - progress * 0.45
     return `
-      <div class="postit echo-postit">
+      <div
+  class="postit echo-postit"
+  style="--echo-bg-opacity: ${backgroundOpacity};"
+>
         <div class="postit-text">
           ${echo.text}
         </div>
