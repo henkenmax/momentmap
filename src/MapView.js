@@ -28,7 +28,8 @@ export function createMap() {
   let ownMomentsLine = null
 
   const map = L.map('map', {
-    zoomControl: false
+    zoomControl: false,
+    minZoom: 6
   }).setView([51.1657, 10.4515], 6)
 
   const bounds = [
@@ -77,6 +78,9 @@ const introCard = introModal.querySelector('.login-card')
   const profileButton = document.querySelector('#profileButton')
   const profilePostit = document.querySelector('#profilePostit')
   const closeLoginModal = document.querySelector('#closeLoginModal')
+  const weeklyImpulseButton = document.querySelector('#weeklyImpulseButton')
+const weeklyImpulsePostit = document.querySelector('#weeklyImpulsePostit')
+const closeWeeklyImpulse = document.querySelector('#closeWeeklyImpulse')
 
   const markersById = {}
   const echoMarkersById = {}
@@ -765,15 +769,9 @@ const backgroundOpacity = 1 - progress * 0.45
     .addTo(map)
     .bindPopup(createPostitContent(moment))
 
-  marker.on('click', () => {
-    if (!isLoggedIn()) {
-      marker.closePopup()
-      showIntroModal()
-      return
-    }
-
-    marker.setPopupContent(createPostitContent(moment))
-  })
+ marker.on('click', () => {
+  marker.setPopupContent(createPostitContent(moment))
+})
 
   markersById[moment.id] = marker
 }
@@ -897,11 +895,19 @@ function refreshOwnMomentsLine() {
   signupButton.addEventListener('click', signup)
   loginButton.addEventListener('click', login)
   logoutButton.addEventListener('click', logout)
+  weeklyImpulseButton.addEventListener('click', () => {
+  weeklyImpulsePostit.classList.toggle('hidden')
+})
+
+closeWeeklyImpulse.addEventListener('click', () => {
+  weeklyImpulsePostit.classList.add('hidden')
+})
   profileButton.addEventListener('click', () => {
  if (!isLoggedIn()) {
   return
 }
   profilePostit.innerHTML = `
+   <button id="closeProfilePostit" class="close-login">✕</button>
     <div class="profile-postit-title">${t('myProfile')}</div>
 
     
@@ -936,6 +942,8 @@ function refreshOwnMomentsLine() {
 </div>
   `
    const toggleOwnMoments = profilePostit.querySelector('#toggleOwnMoments')
+   const closeProfilePostit =
+  profilePostit.querySelector('#closeProfilePostit')
 
 toggleOwnMoments.addEventListener('click', (event) => {
   event.stopPropagation()
@@ -946,6 +954,11 @@ toggleOwnMoments.addEventListener('click', (event) => {
   toggleOwnMoments.textContent = showOnlyOwnMoments
     ? 'Nur meine Momente'
     : 'Alle Momente'
+})
+
+closeProfilePostit.addEventListener('click', (event) => {
+  event.stopPropagation()
+  profilePostit.classList.add('hidden')
 })
   profilePostit.classList.toggle('hidden')
 })
